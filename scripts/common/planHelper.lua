@@ -38,6 +38,12 @@ end
 function planHelper:availablePlansForFloraObjects(super, objectInfos, tribeID)
     local plans = super(self, objectInfos, tribeID)
 
+    for _, planInfo in ipairs(plans) do
+        if planInfo.planTypeIndex == plan.types.cutAndReplant.index then
+            return plans
+        end
+    end
+    
     local hasChopDiscovery = false
     local hasPlantDiscovery = false
 
