@@ -1,6 +1,6 @@
 local modInfo = {
-  name = "Cut and Replant",
-  description = "Allows you to cut and replant trees in one action",
+  name = "Chop and Replant",
+  description = "Allows you to chop and replant trees with one button",
   type = "world",
   developer = "Witchy",
   version = "1.0.0",

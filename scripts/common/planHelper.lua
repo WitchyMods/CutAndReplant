@@ -38,12 +38,12 @@ end
 function planHelper:availablePlansForFloraObjects(super, objectInfos, tribeID)
     local plans = super(self, objectInfos, tribeID)
 
-    for _, planInfo in ipairs(plans) do
-        if planInfo.planTypeIndex == plan.types.cutAndReplant.index then
-            return plans
+    for i = #plans, 1, -1 do
+        if plans[i].planTypeIndex == plan.types.chopAndReplant.index then
+            table.remove(plans, i)
         end
     end
-    
+
     local hasChopDiscovery = false
     local hasPlantDiscovery = false
 
@@ -60,8 +60,8 @@ function planHelper:availablePlansForFloraObjects(super, objectInfos, tribeID)
         local queuedPlanInfos = self:getQueuedPlanInfos(objectInfos, tribeID, false)
         local availablePlanCounts = {}
 
-        local cutReplantPlanInfo = {
-            planTypeIndex = plan.types.cutAndReplant.index;
+        local chopReplantPlanInfo = {
+            planTypeIndex = plan.types.chopAndReplant.index;
             requirements = {
                 toolTypeIndex = tool.types.treeChop.index,
                 skill = skill.types.treeFelling.index,
@@ -69,16 +69,16 @@ function planHelper:availablePlansForFloraObjects(super, objectInfos, tribeID)
         }
 
         if queuedPlanInfos and next(queuedPlanInfos) then
-            availablePlanCounts[self:getPlanHash(cutReplantPlanInfo)] = 0
-            cutReplantPlanInfo.unavailableReasonText = locale:get("ui_plan_unavailable_stopOrders")
+            availablePlanCounts[self:getPlanHash(chopReplantPlanInfo)] = 0
+            chopReplantPlanInfo.unavailableReasonText = locale:get("ui_plan_unavailable_stopOrders")
         else
-            availablePlanCounts[self:getPlanHash(cutReplantPlanInfo)] = #objectInfos
+            availablePlanCounts[self:getPlanHash(chopReplantPlanInfo)] = #objectInfos
         end
 
-        self:addPlanExtraInfo(cutReplantPlanInfo, queuedPlanInfos, availablePlanCounts)
-        table.insert(plans, cutReplantPlanInfo)
+        self:addPlanExtraInfo(chopReplantPlanInfo, queuedPlanInfos, availablePlanCounts)
+        table.insert(plans, chopReplantPlanInfo)
 
-        self:addCancelPlansForAnyMissingQueuedPlans(objectInfos, tribeID, queuedPlanInfos, {cutReplantPlanInfo})
+        self:addCancelPlansForAnyMissingQueuedPlans(objectInfos, tribeID, queuedPlanInfos, {chopReplantPlanInfo})
     end
 
     return plans

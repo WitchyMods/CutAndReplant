@@ -5,19 +5,19 @@ local shadow = mjrequire "hammerstone/utils/shadow"
 local plan = {}
 
 function plan:postload(base)
-    local cutAndReplantPlan = {
-        key = "cutAndReplant",
-        name = "Cut And Replant",
-        inProgress = "Cutting and replanting tree",
-        icon = "icon_cutreplant",
+    local chopAndReplantPlan = {
+        key = "chopAndReplant",
+        name = "Chop and replant tree",
+        inProgress = "Chopping and replanting tree",
+        icon = "icon_chopReplant",
         skipFinalReachableCollisionPathCheck = true,
         requiresLight = true,
         checkCanCompleteForRadialUI = true,
         priorityOffset = base.mineChopPriorityOffset,
     }
 
-    if not base.types["cutAndReplant"] then
-        typeMaps:insert("plan", base.types, cutAndReplantPlan)
+    if not base.types["chopAndReplant"] then
+        typeMaps:insert("plan", base.types, chopAndReplantPlan)
     end
 end
 
