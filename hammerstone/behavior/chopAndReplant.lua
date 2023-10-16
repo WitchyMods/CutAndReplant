@@ -45,26 +45,6 @@ local function completeChopAction(super, allowCompletion, sapien, orderObject, o
     super(allowCompletion, sapien, orderObject, orderState, actionState, constructableType, requiredLearnComplete)
 end
 
--- put in a function so we don't mjrequire activeOrderAI too soon
-local function getActionLogic(activeOrderAI)
-    local action = mjrequire "common/action"
-
-    local chopInfos = activeOrderAI.updateInfos[action.types.chop.index]
-    local super_complete = chopInfos.completionFunction
-
-    return {
-        actionTypeIndex = action.types.chop.index,
-        checkFrequency = chopInfos.checkFrequency,
-        defaultSkillIndex = chopInfos.defaultSkillIndex,
-        toolMultiplierTypeIndex = chopInfos.toolMultiplierTypeIndex,
-        injuryRisk = chopInfos.injuryRisk,
-        completionFunction = function(allowCompletion, sapien, orderObject, orderState, actionState, constructableType, requiredLearnComplete)
-            mj:log("In complete function")
-            completeChopAction(super_complete, allowCompletion, sapien, orderObject, orderState, actionState, constructableType, requiredLearnComplete)
-        end
-    }
-end
-
 return {
     description = {
         identifier = "chopAndReplant",
@@ -89,7 +69,11 @@ return {
                 repeat_count = 2
             }
         },
-        hs_action_logic = getActionLogic,
+        hs_action_logic = {
+            shadow = true,
+            action = "chop",
+            completion_function = completeChopAction
+        },
         hs_plan_availability = {
             target_type = "objects",
             object_groups = {"floraTypes"},
