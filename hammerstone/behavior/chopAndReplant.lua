@@ -95,7 +95,7 @@ return {
             object_groups = {"floraTypes"},
             tool = "treeChop",
             skill = "treeFelling",
-            add_condition =  function(planHelper, vertOrObjectInfos, tribeID)
+            add_condition =  function(context, vertOrObjectInfos)
                 local flora = mjrequire "common/flora"
                 return flora:requiresAxeToChop(vertOrObjectInfos[1])
             end,
